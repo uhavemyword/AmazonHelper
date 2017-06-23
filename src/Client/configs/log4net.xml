@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<log4net debug="false">
+
+  <appender name="ConsoleAppender" type="log4net.Appender.ColoredConsoleAppender">
+    <filter type="log4net.Filter.LevelRangeFilter">
+      <levelMin value="DEBUG" />
+    </filter>
+    <filter type="log4net.Filter.DenyAllFilter" />
+    <mapping>
+      <level value="INFO" />
+      <foreColor value="Green, HighIntensity" />
+    </mapping>
+    <mapping>
+      <level value="DEBUG" />
+      <foreColor value="Blue, HighIntensity" />
+    </mapping>
+    <mapping>
+      <level value="WARN" />
+      <foreColor value="Purple, HighIntensity" />
+    </mapping>
+    <mapping>
+      <level value="ERROR" />
+      <foreColor value="Red, HighIntensity" />
+    </mapping>
+
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date{HH:mm:ss,fff} [%thread]%-5level - %message%newline" />
+    </layout>
+  </appender>
+
+  <appender name="RollingFileAppender" type="log4net.Appender.RollingFileAppender">
+    <file value="logs\info.log" />
+    <appendToFile value="true" />
+    <rollingStyle value="Size" />
+    <maxSizeRollBackups value="10" />
+    <maximumFileSize value="4MB" />
+    <staticLogFileName value="true" />
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+    </layout>
+  </appender>
+
+  <appender name="RollingFileErrorAppender" type="log4net.Appender.RollingFileAppender">
+    <filter type="log4net.Filter.LevelRangeFilter">
+      <levelMin value="ERROR" />
+    </filter>
+    <filter type="log4net.Filter.DenyAllFilter" />
+    <file value="logs\error.log" />
+    <appendToFile value="true" />
+    <rollingStyle value="Size" />
+    <maxSizeRollBackups value="10" />
+    <maximumFileSize value="4MB" />
+    <staticLogFileName value="true" />
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+    </layout>
+  </appender>
+
+  <appender name="LoggingEventAppender" type="Common.LoggingEventAppender, Common">
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+    </layout>
+  </appender>
+
+  <appender name="SmtpAppender" type="log4net.Appender.SmtpAppender">
+    <filter type="log4net.Filter.LevelRangeFilter">
+      <levelMin value="ERROR" />
+    </filter>
+    <filter type="log4net.Filter.DenyAllFilter" />
+    <to value="" />
+    <from value="" />
+    <subject value="Error" />
+    <smtpHost value="" />
+    <bufferSize value="10" />
+    <lossy value="false" />
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%newline%date [%thread] %-5level %logger [%property{NDC}] - %message%newline%newline" />
+    </layout>
+  </appender>
+
+  <root>
+    <!--Note: each appender may have its own LevelRangeFilter-->
+    <level value="DEBUG" />
+    <!--<appender-ref ref="ConsoleAppender" />-->
+    <appender-ref ref="RollingFileAppender" />
+    <appender-ref ref="RollingFileErrorAppender" />
+    <appender-ref ref="MyLoggingAppender" />
+  </root>
+</log4net>
